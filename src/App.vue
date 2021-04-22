@@ -29,7 +29,7 @@ export default {
        todo......
         */
       localStorage.setItem("openId", "111");
-      // window.location.href = `${proto}#${getUrlParam("state")}`;
+      window.location.href = `${proto}#${getUrlParam("state")}`;
     }
     if (localStorage.getItem("openId")) return;
     //  微信地址重定向 需要授权
