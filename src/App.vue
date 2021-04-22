@@ -9,41 +9,38 @@
 </template>
 
 <script>
-import { inWechat, getUrlParam } from "./utils/index"
+import { inWechat, getUrlParam } from "./utils/index";
 export default {
   created() {
     // 判断当前是不是在微信环境
-    if (!inWechat()) return
+    if (!inWechat()) return;
     // 公众号的id
-    const appid = "wx06ce01cd60358ab8" //自己的测试号
+    const appid = "wx06ce01cd60358ab8"; //自己的测试号
     // 分解url
-    const href = window.location.href
-    const arr = href.split("#")
-    console.log(arr, "arr")
-    const beforeHash = arr[0]
-    const afterHash = arr[1]
-    const proto = beforeHash.substring(0, beforeHash.indexOf("?"))
-
+    const href = window.location.href;
+    const arr = href.split("#");
+    const beforeHash = arr[0];
+    const afterHash = arr[1];
+    const proto = beforeHash.substring(0, beforeHash.indexOf("?"));
     // 如果地址栏里面有code表示不需要重新授权
     if (getUrlParam("code")) {
       /***
       // 发请求openId
        todo......
         */
-      localStorage.setItem("openId", "111")
-      window.location.href = `${proto}#${decodeURIComponent(
-        getUrlParam("state")
-      )}`
+      localStorage.setItem("openId", "111");
+      // window.location.href = `${proto}#${getUrlParam("state")}`;
     }
-    if (localStorage.getItem("openId")) return
-
-    // 微信地址重定向 需要授权
+    if (localStorage.getItem("openId")) return;
+    //  微信地址重定向 需要授权
     const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${decodeURIComponent(
       beforeHash
-    )}&response_type=code&scope=snsapi_userinfo&state=${afterHash}#wechat_redirect`
-    window.location.replace(url)
+    )}&response_type=code&scope=snsapi_userinfo&state=${encodeURIComponent(
+      afterHash
+    )}#wechat_redirect`;
+    window.location.replace(url);
   }
-}
+};
 </script>
 
 <style>
