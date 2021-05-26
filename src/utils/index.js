@@ -27,3 +27,19 @@ export const getUrlParam = function (name) {
 
     return null; //返回参数值
 }
+
+
+export  function getHrefParser() {
+  const href = window.location.href;
+  const arr = href.split('#');
+  const beforeHash = arr[0];
+  const afterHash = arr[1];
+  const proto = beforeHash.substring(0, beforeHash.indexOf('?'));
+  const query = beforeHash.substring(beforeHash.indexOf('?'));
+  return {
+    beforeHash,
+    afterHash:decodeURIComponent(afterHash),
+    proto,
+    query: query ? queryString.parse(query) : {}
+  };
+}
